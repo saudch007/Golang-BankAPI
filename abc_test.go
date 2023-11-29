@@ -11,7 +11,7 @@ import (
 func TestServer(t *testing.T) {
 	store, err := NewPostgresStore()
 	if err != nil {
-		t.Fatalf("Error creating Postgres store: %v", err)
+		t.Fatalf("Error in creating Postgres store: %v", err)
 	}
 	defer store.db.Close()
 
