@@ -3,11 +3,26 @@ type: docker
 name: test
 
 steps:
+  - name: build
+    image: docker:latest
+    commands:
+      - docker build -t saudch007/golang-bankapi:latest .
+
   - name: run-tests
     image: golang:latest
     commands:
-      - go get -t -v ./...
       - go test -v ./...
+
+  - name: publish
+    image: plugins/docker
+    settings:
+      repo: saudch007/golang-bankapi
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+      tags:
+        - latest
 
 trigger:
   event:
