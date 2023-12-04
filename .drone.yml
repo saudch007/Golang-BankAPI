@@ -4,11 +4,22 @@ name: test
 
 steps:
   - name: build
-    image: docker:latest
-    commands:
-      - echo "Building Docker image..."
-      - docker build -t saud009/golang-bankapi:latest .
-      - echo "Docker image built successfully."
+    image: plugins/docker
+    settings:
+      repo: saud009/golang-bankapi
+      tags: latest
+      debug: true
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+      build_args:
+        - BUILDKIT_INLINE_CACHE=1
+    when:
+      event:
+        - push
+      branch:
+        - main
 
   - name: run-tests
     image: golang:latest
@@ -16,18 +27,6 @@ steps:
       - echo "Running tests..."
       - go test -v ./...
       - echo "Tests completed successfully."
-
-  - name: publish
-    image: plugins/docker
-    settings:
-      repo: saud009/golang-bankapi
-      username:
-        from_secret: docker_username
-      password:
-        from_secret: docker_password
-      tags:
-        - latest
-      debug: true
 
 trigger:
   event:
