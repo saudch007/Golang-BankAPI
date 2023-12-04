@@ -29,6 +29,7 @@ import (
 )
 
 func main() {
+	hello()
 	// Define a handler function for handling incoming requests
 	handler := func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, "Hello, World!")
