@@ -19,7 +19,7 @@ steps:
       event:
         - push
       branch:
-        - main
+        - master
 
   - name: run-tests
     image: golang:latest
